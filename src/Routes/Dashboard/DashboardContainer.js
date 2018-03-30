@@ -1,5 +1,6 @@
 import React from 'react';
 import Dashboard from './Dashboard';
+import Noty from 'noty';
 
 export class DashboardContainer extends React.PureComponent {
 	constructor() {
@@ -17,7 +18,13 @@ export class DashboardContainer extends React.PureComponent {
 	};
 
 	onAddNoteModalSubmit = () => {
-		console.log('onSubmit');
+		console.log('onSubmit', 123);
+		new Noty({
+			type: 'success',
+			theme: 'metroui',
+			timeout: 1500,
+			text: 'Some notification text'
+		}).show();
 		this.toggleModal();
 	};
 
