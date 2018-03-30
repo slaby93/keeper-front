@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import AddNoteModal from './AddNoteModal';
+import SearchNotes from './SearchNotes';
 import { Button } from 'antd';
 import NotesBoard from './NotesBoard';
 export class Dashboard extends React.PureComponent {
@@ -9,6 +10,7 @@ export class Dashboard extends React.PureComponent {
 		return (
 			<div>
 				<AddNoteButton onClick={toggleModal} type="primary" shape="circle" icon="plus" size="large" />
+				<SearchNotes />
 				<AddNoteModal isModalVisible={isModalVisible} onSubmit={onAddNoteModalSubmit} onClose={toggleModal} />
 				<NotesBoard />
 			</div>
