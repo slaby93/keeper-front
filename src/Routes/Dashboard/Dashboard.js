@@ -1,13 +1,16 @@
 import React from 'react';
 import styled from 'styled-components';
 import Note from './../../Components/Note';
+import AddNoteModal from './AddNoteModal';
 import { Button, Icon } from 'antd';
 
 export class Dashboard extends React.PureComponent {
 	render() {
+		const { toggleModal, isModalVisible, onAddNoteModalSubmit } = this.props;
 		return (
 			<NotesBoard>
-				<AddNoteButton type="primary" shape="circle" icon="plus" size="large" />
+				<AddNoteButton onClick={toggleModal} type="primary" shape="circle" icon="plus" size="large" />
+				<AddNoteModal isModalVisible={isModalVisible} onSubmit={onAddNoteModalSubmit} onClose={toggleModal} />
 				<Note title="Test1" body="test2" />
 			</NotesBoard>
 		);
