@@ -2,8 +2,8 @@ import React from 'react';
 import Dashboard from './Dashboard';
 import Noty from 'noty';
 import { graphql, compose, withApollo } from 'react-apollo';
-import addNewNoteMutation from './addNewNoteMutation.gql';
-import QUERY_NOTES from './NotesBoard/QUERY_NOTES.gql';
+import ADD_NEW_NOTE from './../../queries/ADD_NEW_NOTE.mutation.gql';
+import GET_NOTES from './../../queries/GET_NOTES.query.gql';
 export class DashboardContainer extends React.PureComponent {
 	constructor() {
 		super();
@@ -27,9 +27,9 @@ export class DashboardContainer extends React.PureComponent {
 				body
 			},
 			update: (store, { data: { addNote } }) => {
-				const cachedData = store.readQuery({ query: QUERY_NOTES });
+				const cachedData = store.readQuery({ query: GET_NOTES });
 				cachedData.notes = cachedData.notes.concat([addNote]);
-				store.writeQuery({ query: QUERY_NOTES, data: cachedData });
+				store.writeQuery({ query: GET_NOTES, data: cachedData });
 			}
 		});
 		new Noty({
@@ -53,4 +53,4 @@ export class DashboardContainer extends React.PureComponent {
 	}
 }
 
-export default compose(graphql(addNewNoteMutation, { name: 'addNewNoteMutation' }))(withApollo(DashboardContainer));
+export default compose(graphql(ADD_NEW_NOTE, { name: 'addNewNoteMutation' }))(withApollo(DashboardContainer));

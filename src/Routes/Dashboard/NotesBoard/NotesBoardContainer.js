@@ -1,7 +1,7 @@
 import React from 'react';
 import NotesBoard from './NotesBoard';
 import { graphql } from 'react-apollo';
-import QUERY_NOTES from './QUERY_NOTES.gql';
+import GET_NOTES from './../../../queries/GET_NOTES.query.gql';
 export class NotesBoardContainer extends React.PureComponent {
 	constructor() {
 		super();
@@ -42,5 +42,4 @@ export class NotesBoardContainer extends React.PureComponent {
 	}
 }
 
-export default graphql(QUERY_NOTES)(NotesBoardContainer);
-// export default NotesBoardContainer;
+export default graphql(GET_NOTES)(NotesBoardContainer);

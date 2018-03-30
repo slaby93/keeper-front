@@ -1,6 +1,6 @@
 import React from 'react';
 import { withApollo } from 'react-apollo';
-import QUERY_NOTES from './../../NotesBoard/QUERY_NOTES.gql';
+import GET_NOTES from './../../../../queries/GET_NOTES.query.gql';
 import SearchBox from './SearchBox';
 import { gql } from 'apollo-boost';
 import { Query, graphql, compose } from 'react-apollo';
@@ -11,9 +11,9 @@ export class SearchBoxContainer extends React.PureComponent {
 		await this.props.addNewNoteMutation({
 			variables: {},
 			update: (store, { data: { addNote } }) => {
-				const cachedData = store.readQuery({ query: QUERY_NOTES });
+				const cachedData = store.readQuery({ query: GET_NOTES });
 				cachedData.notes = cachedData.notes.concat([addNote]);
-				store.writeQuery({ query: QUERY_NOTES, data: cachedData });
+				store.writeQuery({ query: GET_NOTES, data: cachedData });
 			}
 		});
 	};
