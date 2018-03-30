@@ -9,15 +9,28 @@ export const AddNoteModal = ({ isModalVisible, onClose, onSubmit, form }) => {
 		<Modal
 			title="Add new note"
 			visible={isModalVisible}
-			onOk={onSubmit}
 			onCancel={onClose}
 			footer={[
-				<Button key="submit" type="primary" onClick={onSubmit} htmlType="submit" className="login-form-button">
+				<Button
+					key="submit"
+					type="primary"
+					onClick={event => {
+						event.preventDefault();
+						form.validateFields((err, values) => {
+							if (err) {
+								return;
+							}
+							onSubmit(values);
+						});
+					}}
+					htmlType="submit"
+					className="login-form-button"
+				>
 					Create!
 				</Button>
 			]}
 		>
-			<Form onSubmit={onSubmit} className="login-form">
+			<Form className="login-form">
 				<Form.Item>
 					{getFieldDecorator('title', {
 						rules: [{ required: true, message: 'Please input note title!' }]

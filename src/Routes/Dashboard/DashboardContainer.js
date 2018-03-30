@@ -1,6 +1,9 @@
 import React from 'react';
 import Dashboard from './Dashboard';
 import Noty from 'noty';
+import { gql } from 'apollo-boost';
+import { Query, graphql, compose } from 'react-apollo';
+import addNewNoteMutation from './addNewNoteMutation.gql';
 
 export class DashboardContainer extends React.PureComponent {
 	constructor() {
@@ -17,7 +20,13 @@ export class DashboardContainer extends React.PureComponent {
 		});
 	};
 
-	onAddNoteModalSubmit = () => {
+	onAddNoteModalSubmit = async ({ title, body }) => {
+		await this.props.addNewNoteMutation({
+			variables: {
+				title,
+				body
+			}
+		});
 		new Noty({
 			type: 'success',
 			theme: 'metroui',
@@ -39,4 +48,4 @@ export class DashboardContainer extends React.PureComponent {
 	}
 }
 
-export default DashboardContainer;
+export default compose(graphql(addNewNoteMutation, { name: 'addNewNoteMutation' }))(DashboardContainer);

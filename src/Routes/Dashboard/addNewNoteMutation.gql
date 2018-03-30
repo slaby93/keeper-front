@@ -1,0 +1,11 @@
+mutation addNewNote(
+	$title: String!,
+  $body: String,
+  ) {
+ 	addNote(
+		title: $title,
+		body: $body		
+	){
+		title
+	}
+}
