@@ -38,7 +38,9 @@ export class Note extends React.PureComponent {
 				position={null}
 				grid={[25, 25]}
 				onStart={this.handleStart}
-				onDrag={this.handleDrag}
+				onDrag={(...args) => {
+					console.log(args);
+				}}
 				onStop={this.handleStop}
 			>
 				<Card
@@ -55,9 +57,9 @@ export class Note extends React.PureComponent {
 }
 
 const StyledNote = styled(Note)`
-	width: 230px;
+	width: 250px;
 	height: 250px;
-
+	margin: 10px;
 	&:hover {
 		box-shadow: 0px 0px 10px 1px #a7a7a7;
 	}
