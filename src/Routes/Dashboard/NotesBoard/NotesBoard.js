@@ -1,21 +1,27 @@
 import React from 'react';
 import styled from 'styled-components';
 import Note from './../../../Components/Note';
-
+import NotePreviewModal from './NotePreviewModal';
 export class NotesBoard extends React.PureComponent {
 	parseDataToNotes = notesList => {
+		const { onNoteClick } = this.props;
 		return (
 			notesList &&
 			notesList.map(({ title, body }, index) => {
-				return <Note key={index} title={title} body={body} />;
+				return <Note onClick={onNoteClick} key={index} title={title} body={body} />;
 			})
 		);
 	};
 
 	render() {
-		const { className, notesList } = this.props;
+		const { className, notesList, isModalVisible, toggleModal } = this.props;
 		const parsedNotes = this.parseDataToNotes(notesList);
-		return <div className={className}>{parsedNotes}</div>;
+		return (
+			<div className={className}>
+				{parsedNotes}
+				<NotePreviewModal onClose={toggleModal} isModalVisible={isModalVisible} />
+			</div>
+		);
 	}
 }
 

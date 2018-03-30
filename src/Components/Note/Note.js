@@ -25,7 +25,8 @@ export class Note extends React.PureComponent {
 	};
 
 	handleClick = () => {
-		console.log('click');
+		const { onClick, title, body } = this.props;
+		onClick({ title, body });
 	};
 
 	render() {
