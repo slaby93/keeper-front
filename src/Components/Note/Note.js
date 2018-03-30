@@ -38,9 +38,6 @@ export class Note extends React.PureComponent {
 				position={null}
 				grid={[25, 25]}
 				onStart={this.handleStart}
-				onDrag={(...args) => {
-					console.log(args);
-				}}
 				onStop={this.handleStop}
 			>
 				<Card
