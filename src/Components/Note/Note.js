@@ -24,6 +24,10 @@ export class Note extends React.PureComponent {
 		});
 	};
 
+	handleClick = () => {
+		console.log('click');
+	};
+
 	render() {
 		const { className, title, body } = this.props;
 		return (
@@ -37,7 +41,12 @@ export class Note extends React.PureComponent {
 				onDrag={this.handleDrag}
 				onStop={this.handleStop}
 			>
-				<Card onMouseOver={this.onMouseOver} onMouseLeave={this.onMouseLeave} className={`${className} handle`}>
+				<Card
+					onClick={this.handleClick}
+					onMouseOver={this.onMouseOver}
+					onMouseLeave={this.onMouseLeave}
+					className={`${className} handle`}
+				>
 					<Meta title={title} description={body} />
 				</Card>
 			</Draggable>
@@ -50,7 +59,7 @@ const StyledNote = styled(Note)`
 	height: 250px;
 
 	&:hover {
-		box-shadow: 0px 0px 10px 0px #a7a7a7;
+		box-shadow: 0px 0px 10px 1px #a7a7a7;
 	}
 `;
 
