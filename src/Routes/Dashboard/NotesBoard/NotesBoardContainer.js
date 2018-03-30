@@ -6,31 +6,35 @@ export class NotesBoardContainer extends React.PureComponent {
 	constructor() {
 		super();
 		this.state = {
-			isModalVisible: false
+			isModalVisible: false,
+			modalData: null
 		};
 	}
 
-	onNoteClick = () => {
+	onNoteClick = data => {
 		this.setState({
-			isModalVisible: true
+			isModalVisible: true,
+			modalData: data
 		});
 	};
 
-	toggleModal = () => {
+	toggleModal = data => {
 		const { isModalVisible } = this.state;
 		this.setState({
-			isModalVisible: !isModalVisible
+			isModalVisible: !isModalVisible,
+			modalData: data || null
 		});
 	};
 
 	render() {
-		const { isModalVisible } = this.state;
+		const { isModalVisible, modalData } = this.state;
 		const { data: { notes, loading } } = this.props;
 		return (
 			<NotesBoard
 				toggleModal={this.toggleModal}
 				onNoteClick={this.onNoteClick}
 				isModalVisible={isModalVisible}
+				modalData={modalData}
 				isLoading={loading}
 				notesList={notes}
 			/>

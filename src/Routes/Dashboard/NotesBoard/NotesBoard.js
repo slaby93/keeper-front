@@ -14,12 +14,15 @@ export class NotesBoard extends React.PureComponent {
 	};
 
 	render() {
-		const { className, notesList, isModalVisible, toggleModal } = this.props;
+		const { className, notesList, isModalVisible, toggleModal, modalData } = this.props;
 		const parsedNotes = this.parseDataToNotes(notesList);
 		return (
 			<div className={className}>
 				{parsedNotes}
-				<NotePreviewModal onClose={toggleModal} isModalVisible={isModalVisible} />
+				{isModalVisible &&
+					modalData && (
+						<NotePreviewModal data={modalData} onClose={toggleModal} isModalVisible={isModalVisible} />
+					)}
 			</div>
 		);
 	}
