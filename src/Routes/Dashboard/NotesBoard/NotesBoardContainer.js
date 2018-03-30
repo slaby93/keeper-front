@@ -1,7 +1,6 @@
 import React from 'react';
 import NotesBoard from './NotesBoard';
-import { gql } from 'apollo-boost';
-import { Query, graphql, compose } from 'react-apollo';
+import { graphql } from 'react-apollo';
 import QUERY_NOTES from './QUERY_NOTES.gql';
 export class NotesBoardContainer extends React.PureComponent {
 	render() {

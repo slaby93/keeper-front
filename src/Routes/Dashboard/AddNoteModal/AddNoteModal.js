@@ -1,5 +1,5 @@
 import React from 'react';
-import { Modal, Form, Icon, Input, Button } from 'antd';
+import { Modal, Form, Input, Button } from 'antd';
 const { TextArea } = Input;
 
 export const AddNoteModal = ({ isModalVisible, onClose, onSubmit, form }) => {

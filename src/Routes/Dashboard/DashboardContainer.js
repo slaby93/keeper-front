@@ -1,8 +1,7 @@
 import React from 'react';
 import Dashboard from './Dashboard';
 import Noty from 'noty';
-import { gql } from 'apollo-boost';
-import { Query, graphql, compose } from 'react-apollo';
+import { graphql, compose } from 'react-apollo';
 import addNewNoteMutation from './addNewNoteMutation.gql';
 
 export class DashboardContainer extends React.PureComponent {

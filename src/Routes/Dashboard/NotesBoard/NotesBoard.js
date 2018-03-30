@@ -6,8 +6,8 @@ export class NotesBoard extends React.PureComponent {
 	parseDataToNotes = notesList => {
 		return (
 			notesList &&
-			notesList.map(({ title, body }) => {
-				return <Note key={title + body} title={title} body={body} />;
+			notesList.map(({ title, body }, index) => {
+				return <Note key={index} title={title} body={body} />;
 			})
 		);
 	};

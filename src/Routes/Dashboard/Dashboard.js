@@ -1,6 +1,5 @@
 import React from 'react';
 import styled from 'styled-components';
-import Note from './../../Components/Note';
 import AddNoteModal from './AddNoteModal';
 import { Button } from 'antd';
 import NotesBoard from './NotesBoard';
