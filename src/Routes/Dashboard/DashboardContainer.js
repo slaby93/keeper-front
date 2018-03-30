@@ -17,6 +17,7 @@ export class DashboardContainer extends React.PureComponent {
 	};
 
 	onAddNoteModalSubmit = () => {
+		console.log('onSubmit');
 		this.toggleModal();
 	};
 

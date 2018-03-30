@@ -1,14 +1,38 @@
 import React from 'react';
-import { Modal, Button, Icon } from 'antd';
+import { Modal, Form, Icon, Input, Button } from 'antd';
+const { TextArea } = Input;
 
-export const AddNoteModal = ({ isModalVisible, onClose, onSubmit }) => {
+export const AddNoteModal = ({ isModalVisible, onClose, onSubmit, form }) => {
+	const { getFieldDecorator } = form;
+
 	return (
-		<Modal title="Basic Modal" visible={isModalVisible} onOk={onSubmit} onCancel={onClose}>
-			<p>Some contents...</p>
-			<p>Some contents...</p>
-			<p>Some contents...</p>
+		<Modal
+			title="Add new note"
+			visible={isModalVisible}
+			onOk={onSubmit}
+			onCancel={onClose}
+			footer={[
+				<Button key="submit" type="primary" onClick={onSubmit} htmlType="submit" className="login-form-button">
+					Create!
+				</Button>
+			]}
+		>
+			<Form onSubmit={onSubmit} className="login-form">
+				<Form.Item>
+					{getFieldDecorator('title', {
+						rules: [{ required: true, message: 'Please input note title!' }]
+					})(<Input placeholder="Title" />)}
+				</Form.Item>
+				<Form.Item>
+					{getFieldDecorator('body', {
+						rules: [{ required: true, message: 'Please input note body!' }]
+					})(<TextArea type="textarea" placeholder="Body" />)}
+				</Form.Item>
+			</Form>
 		</Modal>
 	);
 };
 
-export default AddNoteModal;
+const WrappedAddNoteForm = Form.create()(AddNoteModal);
+
+export default WrappedAddNoteForm;
