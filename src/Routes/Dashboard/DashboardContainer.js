@@ -18,7 +18,6 @@ export class DashboardContainer extends React.PureComponent {
 	};
 
 	onAddNoteModalSubmit = () => {
-		console.log('onSubmit', 123);
 		new Noty({
 			type: 'success',
 			theme: 'metroui',
