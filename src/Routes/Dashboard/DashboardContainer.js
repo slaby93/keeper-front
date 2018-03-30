@@ -26,11 +26,10 @@ export class DashboardContainer extends React.PureComponent {
 				title,
 				body
 			},
-			update: (store, { data }) => {
+			update: (store, { data: { addNote } }) => {
 				const cachedData = store.readQuery({ query: QUERY_NOTES });
-				debugger;
-				// cachedData.offer = Object.assign({}, cachedData.offer, editOffer);
-				// store.writeQuery({ query: QUERY_NOTES, data: cachedData });
+				cachedData.notes = cachedData.notes.concat([addNote]);
+				store.writeQuery({ query: QUERY_NOTES, data: cachedData });
 			}
 		});
 		new Noty({
