@@ -2,7 +2,7 @@ import React from 'react';
 import Dashboard from './Dashboard';
 import Noty from 'noty';
 import { graphql, compose, withApollo } from 'react-apollo';
-import ADD_NEW_NOTE from './../../queries/ADD_NEW_NOTE.mutation.gql';
+import ADD_NOTE from './../../queries/ADD_NOTE.mutation.gql';
 import GET_NOTES from './../../queries/GET_NOTES.query.gql';
 export class DashboardContainer extends React.PureComponent {
 	constructor() {
@@ -20,12 +20,14 @@ export class DashboardContainer extends React.PureComponent {
 	};
 
 	onAddNoteModalSubmit = async ({ title, body }) => {
-		const { client } = this.props;
 		await this.props.addNewNoteMutation({
 			variables: {
 				title,
 				body
 			},
+			/**
+			 * Direct access to cache in order to update existing Notes without requrering existing notes
+			 */
 			update: (store, { data: { addNote } }) => {
 				const cachedData = store.readQuery({ query: GET_NOTES });
 				cachedData.notes = cachedData.notes.concat([addNote]);
@@ -53,4 +55,4 @@ export class DashboardContainer extends React.PureComponent {
 	}
 }
 
-export default compose(graphql(ADD_NEW_NOTE, { name: 'addNewNoteMutation' }))(withApollo(DashboardContainer));
+export default compose(graphql(ADD_NOTE, { name: 'addNewNoteMutation' }))(withApollo(DashboardContainer));

@@ -1,6 +1,6 @@
+#import "./Note.fragment.gql"
 query queryNotes {
 	notes {
-		title
-		body
+		...noteFields
 	}
 }

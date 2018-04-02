@@ -1,6 +1,6 @@
+#import "./Note.fragment.gql"
 mutation addNewNote($title: String!, $body: String) {
 	addNote(title: $title, body: $body) {
-		title
-		body
+		...noteFields
 	}
 }

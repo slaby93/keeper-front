@@ -1,13 +1,15 @@
 import React from 'react';
 import NotesBoard from './NotesBoard';
-import { graphql } from 'react-apollo';
+import { graphql, compose } from 'react-apollo';
 import GET_NOTES from './../../../queries/GET_NOTES.query.gql';
+import REMOVE_NOTE from './../../../queries/REMOVE_NOTE.mutation.gql';
 export class NotesBoardContainer extends React.PureComponent {
 	constructor() {
 		super();
 		this.state = {
 			isModalVisible: false,
-			modalData: null
+			modalData: null,
+			isLoading: false
 		};
 	}
 
@@ -18,8 +20,29 @@ export class NotesBoardContainer extends React.PureComponent {
 		});
 	};
 
+	onNoteRemove = async id => {
+		const { removeNote } = this.props;
+		this.setState({
+			isLoading: true
+		});
+
+		await removeNote({
+			variables: {
+				id: parseInt(id)
+			},
+			/**
+			 * Example of mutation in which we requery all Notes
+			 */
+			refetchQueries: [{ query: GET_NOTES }]
+		});
+
+		this.setState({
+			isLoading: false
+		});
+	};
+
 	toggleModal = data => {
-		const { isModalVisible } = this.state;
+		const { isModalVisible, isLoading } = this.state;
 		this.setState({
 			isModalVisible: !isModalVisible,
 			modalData: data || null
@@ -27,19 +50,21 @@ export class NotesBoardContainer extends React.PureComponent {
 	};
 
 	render() {
-		const { isModalVisible, modalData } = this.state;
+		const { isModalVisible, modalData, isLoading } = this.state;
 		const { data: { notes, loading } } = this.props;
+
 		return (
 			<NotesBoard
+				isLoading={isLoading || loading}
 				toggleModal={this.toggleModal}
 				onNoteClick={this.onNoteClick}
+				onNoteRemove={this.onNoteRemove}
 				isModalVisible={isModalVisible}
 				modalData={modalData}
-				isLoading={loading}
 				notesList={notes}
 			/>
 		);
 	}
 }
 
-export default graphql(GET_NOTES)(NotesBoardContainer);
+export default compose(graphql(GET_NOTES), graphql(REMOVE_NOTE, { name: 'removeNote' }))(NotesBoardContainer);

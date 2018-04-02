@@ -1,7 +1,7 @@
 import React from 'react';
 import Draggable from 'react-draggable';
 import styled from 'styled-components';
-import { Card } from 'antd';
+import { Card, Icon } from 'antd';
 const { Meta } = Card;
 
 export class Note extends React.PureComponent {
@@ -29,6 +29,11 @@ export class Note extends React.PureComponent {
 		onClick({ title, body });
 	};
 
+	handleRemoveClick = () => {
+		const { onRemove, id } = this.props;
+		onRemove(id);
+	};
+
 	render() {
 		const { className, title, body } = this.props;
 		return (
@@ -42,12 +47,12 @@ export class Note extends React.PureComponent {
 				onStop={this.handleStop}
 			>
 				<Card
-					onClick={this.handleClick}
 					onMouseOver={this.onMouseOver}
 					onMouseLeave={this.onMouseLeave}
 					className={`${className} handle`}
+					actions={[<Icon onClick={this.handleRemoveClick} type="delete" />]}
 				>
-					<Meta title={title} description={body} />
+					<Meta onClick={this.handleClick} title={title} description={body} />
 				</Card>
 			</Draggable>
 		);
@@ -55,11 +60,13 @@ export class Note extends React.PureComponent {
 }
 
 const StyledNote = styled(Note)`
-	width: 250px;
-	height: 250px;
 	margin: 10px;
 	&:hover {
 		box-shadow: 0px 0px 10px 1px #a7a7a7;
+	}
+	& > .ant-card-body {
+		width: 250px;
+		height: 250px;
 	}
 `;
 
