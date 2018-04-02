@@ -1,4 +1,4 @@
-fragment noteFields on Note {
+fragment NOTE_FIELDS on Note {
 	id
 	state
 	title

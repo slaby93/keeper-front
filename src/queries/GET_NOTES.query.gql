@@ -1,6 +1,6 @@
 #import "./Note.fragment.gql"
 query GET_NOTES {
 	notes {
-		...noteFields
+		...NOTE_FIELDS
 	}
 }
