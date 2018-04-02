@@ -13,10 +13,10 @@ export class NotesBoardContainer extends React.PureComponent {
 		};
 	}
 
-	onNoteClick = data => {
+	onNoteClick = noteID => {
 		this.setState({
 			isModalVisible: true,
-			modalData: data
+			noteID
 		});
 	};
 
@@ -50,7 +50,7 @@ export class NotesBoardContainer extends React.PureComponent {
 	};
 
 	render() {
-		const { isModalVisible, modalData, isLoading } = this.state;
+		const { isModalVisible, noteID, isLoading } = this.state;
 		const { data: { notes, loading } } = this.props;
 
 		return (
@@ -60,7 +60,7 @@ export class NotesBoardContainer extends React.PureComponent {
 				onNoteClick={this.onNoteClick}
 				onNoteRemove={this.onNoteRemove}
 				isModalVisible={isModalVisible}
-				modalData={modalData}
+				noteID={noteID}
 				notesList={notes}
 			/>
 		);

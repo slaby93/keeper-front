@@ -11,21 +11,21 @@ export class NotesBoard extends React.PureComponent {
 		return (
 			notesList &&
 			notesList.map(data => {
-				return <Note onClick={onNoteClick} onRemove={onNoteRemove} key={data.id} {...data} />;
+				return <Note onClick={() => onNoteClick(data.id)} onRemove={onNoteRemove} key={data.id} {...data} />;
 			})
 		);
 	};
 
 	render() {
-		const { className, notesList, isModalVisible, toggleModal, modalData, isLoading } = this.props;
+		const { className, notesList, isModalVisible, toggleModal, noteID, isLoading } = this.props;
 		const parsedNotes = this.parseDataToNotes(notesList);
 		return (
 			<Spin spinning={isLoading}>
 				<div className={className}>
 					{parsedNotes}
 					{isModalVisible &&
-						modalData && (
-							<NotePreviewModal data={modalData} onClose={toggleModal} isModalVisible={isModalVisible} />
+						noteID && (
+							<NotePreviewModal noteID={noteID} onClose={toggleModal} isModalVisible={isModalVisible} />
 						)}
 				</div>
 			</Spin>

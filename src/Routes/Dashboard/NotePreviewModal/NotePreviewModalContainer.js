@@ -15,7 +15,8 @@ export class NotePreviewModalContainer extends React.PureComponent {
 	};
 
 	render() {
-		return <NotePreviewModal onPostComment={this.handlePostComment} {...this.props} />;
+		// return <NotePreviewModal onPostComment={this.handlePostComment} {...this.props} />;
+		return <span>WIRE FETCHING DATA FOR SINGLE NOTE</span>;
 	}
 }
 
