@@ -1,5 +1,5 @@
 #import "./Note.fragment.gql"
-mutation addNewNote($title: String!, $body: String) {
+mutation ADD_NOTE($title: String!, $body: String) {
 	addNote(title: $title, body: $body) {
 		...noteFields
 	}

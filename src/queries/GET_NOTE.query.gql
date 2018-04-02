@@ -1,0 +1,8 @@
+query GET_COMMENTS {
+	notes {
+		comments {
+			id
+			body
+		}
+	}
+}

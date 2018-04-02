@@ -1,4 +1,4 @@
-mutation removeNote($id: Int!) {
+mutation REMOVE_NOTE($id: Int!) {
 	deleteNote(id: $id) {
 		id
 	}

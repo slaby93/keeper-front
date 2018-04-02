@@ -25,8 +25,8 @@ export class Note extends React.PureComponent {
 	};
 
 	handleClick = () => {
-		const { onClick, title, body } = this.props;
-		onClick({ title, body });
+		const { onClick, title, body, id } = this.props;
+		onClick({ title, body, id });
 	};
 
 	handleRemoveClick = event => {

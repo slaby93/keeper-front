@@ -1,5 +1,10 @@
 fragment noteFields on Note {
 	id
+	state
 	title
 	body
+	comments {
+		body
+	}
+	tags
 }

@@ -1,0 +1,5 @@
+mutation ADD_COMMENT($id: Int!, $body: String!) {
+	addComment(noteId: $id, body: $body) {
+		body
+	}
+}

@@ -1,19 +1,17 @@
 import React from 'react';
 import { Spin } from 'antd';
 import styled, { css } from 'styled-components';
-import { prop, ifProp, switchProp } from 'styled-tools';
+import { ifProp } from 'styled-tools';
 import Note from './../../../Components/Note';
-import NotePreviewModal from './NotePreviewModal';
+import NotePreviewModal from './../NotePreviewModal';
 
 export class NotesBoard extends React.PureComponent {
 	parseDataToNotes = notesList => {
 		const { onNoteClick, onNoteRemove } = this.props;
 		return (
 			notesList &&
-			notesList.map(({ title, body, id }) => {
-				return (
-					<Note onClick={onNoteClick} onRemove={onNoteRemove} key={id} id={id} title={title} body={body} />
-				);
+			notesList.map(data => {
+				return <Note onClick={onNoteClick} onRemove={onNoteRemove} key={data.id} {...data} />;
 			})
 		);
 	};

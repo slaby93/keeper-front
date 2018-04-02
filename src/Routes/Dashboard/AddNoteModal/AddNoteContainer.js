@@ -1,10 +1,11 @@
 import React from 'react';
-import Dashboard from './Dashboard';
+import AddNoteModal from './AddNoteModal';
+import GET_NOTES from './../../../queries/GET_NOTES.query.gql';
+import ADD_NOTE from './../../../queries/ADD_NOTE.mutation.gql';
+import { graphql, compose } from 'react-apollo';
 import Noty from 'noty';
-import { graphql, compose, withApollo } from 'react-apollo';
-import ADD_NOTE from './../../queries/ADD_NOTE.mutation.gql';
-import GET_NOTES from './../../queries/GET_NOTES.query.gql';
-export class DashboardContainer extends React.PureComponent {
+
+export class AddNoteContainer extends React.PureComponent {
 	constructor() {
 		super();
 		this.state = {
@@ -19,8 +20,9 @@ export class DashboardContainer extends React.PureComponent {
 		});
 	};
 
-	onAddNoteModalSubmit = async ({ title, body }) => {
-		await this.props.addNewNoteMutation({
+	onAddNoteModalSubmit = async ({ title, body }, form) => {
+		const { addNote } = this.props;
+		await addNote({
 			variables: {
 				title,
 				body
@@ -38,21 +40,23 @@ export class DashboardContainer extends React.PureComponent {
 			type: 'success',
 			theme: 'metroui',
 			timeout: 1500,
-			text: 'Some notification text'
+			text: 'Note created!'
 		}).show();
 		this.toggleModal();
+		form.resetFields();
 	};
 
 	render() {
 		const { isModalVisible } = this.state;
 		return (
-			<Dashboard
-				toggleModal={this.toggleModal}
-				onAddNoteModalSubmit={this.onAddNoteModalSubmit}
+			<AddNoteModal
 				isModalVisible={isModalVisible}
+				toggleModal={this.toggleModal}
+				onSubmit={this.onAddNoteModalSubmit}
+				{...this.props}
 			/>
 		);
 	}
 }
 
-export default compose(graphql(ADD_NOTE, { name: 'addNewNoteMutation' }))(withApollo(DashboardContainer));
+export default compose(graphql(ADD_NOTE, { name: 'addNote' }))(AddNoteContainer);
