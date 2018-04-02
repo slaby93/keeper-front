@@ -42,7 +42,7 @@ export class NotesBoardContainer extends React.PureComponent {
 	};
 
 	toggleModal = data => {
-		const { isModalVisible, isLoading } = this.state;
+		const { isModalVisible } = this.state;
 		this.setState({
 			isModalVisible: !isModalVisible,
 			modalData: data || null

@@ -29,7 +29,8 @@ export class Note extends React.PureComponent {
 		onClick({ title, body });
 	};
 
-	handleRemoveClick = () => {
+	handleRemoveClick = event => {
+		event.stopPropagation();
 		const { onRemove, id } = this.props;
 		onRemove(id);
 	};
@@ -37,22 +38,15 @@ export class Note extends React.PureComponent {
 	render() {
 		const { className, title, body } = this.props;
 		return (
-			<Draggable
-				axis="both"
-				handle=".handle"
-				defaultPosition={{ x: 0, y: 0 }}
-				position={null}
-				grid={[25, 25]}
-				onStart={this.handleStart}
-				onStop={this.handleStop}
-			>
+			<Draggable axis="both" handle=".handle" defaultPosition={{ x: 0, y: 0 }} position={null} grid={[25, 25]}>
 				<Card
 					onMouseOver={this.onMouseOver}
 					onMouseLeave={this.onMouseLeave}
+					onClick={this.handleClick}
 					className={`${className} handle`}
 					actions={[<Icon onClick={this.handleRemoveClick} type="delete" />]}
 				>
-					<Meta onClick={this.handleClick} title={title} description={body} />
+					<Meta title={title} description={body} />
 				</Card>
 			</Draggable>
 		);

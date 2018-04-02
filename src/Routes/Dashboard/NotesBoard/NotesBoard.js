@@ -44,7 +44,7 @@ const StyledNotesBoard = styled(NotesBoard)`
 	min-height: 100vh;
 	max-width: 100vw;
 	overflow: hidden;
-
+	align-items: flex-start;
 	${ifProp('isLoading', css``)};
 `;
 
