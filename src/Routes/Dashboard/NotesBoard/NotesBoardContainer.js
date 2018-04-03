@@ -3,6 +3,8 @@ import NotesBoard from './NotesBoard';
 import { graphql, compose } from 'react-apollo';
 import GET_NOTES from './../../../queries/GET_NOTES.query.gql';
 import REMOVE_NOTE from './../../../queries/REMOVE_NOTE.mutation.gql';
+import Noty from 'noty';
+
 export class NotesBoardContainer extends React.PureComponent {
 	constructor() {
 		super();
@@ -26,19 +28,28 @@ export class NotesBoardContainer extends React.PureComponent {
 			isLoading: true
 		});
 
-		await removeNote({
-			variables: {
-				id: parseInt(id)
-			},
-			/**
-			 * Example of mutation in which we requery all Notes
-			 */
-			refetchQueries: [{ query: GET_NOTES }]
-		});
-
-		this.setState({
-			isLoading: false
-		});
+		try {
+			await removeNote({
+				variables: {
+					id: parseInt(id)
+				},
+				/**
+				 * Example of mutation in which we requery all Notes
+				 */
+				refetchQueries: [{ query: GET_NOTES }]
+			});
+		} catch (error) {
+			new Noty({
+				type: 'error',
+				theme: 'metroui',
+				timeout: 1500,
+				text: 'Error occured :('
+			}).show();
+		} finally {
+			this.setState({
+				isLoading: false
+			});
+		}
 	};
 
 	toggleModal = data => {
