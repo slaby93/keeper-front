@@ -2,7 +2,7 @@ import React from 'react';
 import AddNewCommentForm from './AddNewCommentForm';
 import EditNoteDetailsForm from './EditNoteDetailsForm';
 import styled from 'styled-components';
-import { Modal, Button, List, Avatar, Divider, Icon } from 'antd';
+import { Modal, Button,Tag, List, Avatar, Divider, Icon } from 'antd';
 
 export const NotePreviewModal = ({ isModalVisible, onClose,onEditNote, onPostComment,onRemoveComment, note }) => {
 	return (
@@ -36,6 +36,15 @@ export const NotePreviewModal = ({ isModalVisible, onClose,onEditNote, onPostCom
 				/>
 				<AddNewCommentForm onPostComment={onPostComment} />
 			</CommentsSection>
+			<Divider>Tags</Divider>
+			<div>
+				<Tag>1</Tag>
+				<Tag>2</Tag>
+				<Tag>3</Tag>
+				<Tag>4</Tag>
+				<Tag>5</Tag>
+			</div>
+
 		</Modal>
 	);
 };
