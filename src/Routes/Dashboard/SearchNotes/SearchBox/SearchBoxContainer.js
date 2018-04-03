@@ -3,11 +3,10 @@ import { withApollo } from 'react-apollo';
 import GET_NOTES from './../../../../queries/GET_NOTES.query.gql';
 import SearchBox from './SearchBox';
 import { gql } from 'apollo-boost';
-import { Query, graphql, compose } from 'react-apollo';
+import { graphql, compose } from 'react-apollo';
 
 export class SearchBoxContainer extends React.PureComponent {
 	searchNotes = async filters => {
-		const { client } = this.props;
 		await this.props.addNewNoteMutation({
 			variables: {},
 			update: (store, { data: { addNote } }) => {
@@ -19,7 +18,6 @@ export class SearchBoxContainer extends React.PureComponent {
 	};
 
 	onFiltersChange = async filters => {
-		console.log('onFiltersChange', filters, this.props);
 		const { searchWithFilters, client } = this.props;
 		await searchWithFilters.updateQuery((data, options) => {
 			return [
