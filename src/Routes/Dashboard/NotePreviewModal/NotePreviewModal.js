@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { Modal, Form, Input, Button, List, Avatar, Divider } from 'antd';
 const { TextArea } = Input;
 
-export const NotePreviewModal = ({ isModalVisible, onClose, form, onPostComment, data: { title, body, id } }) => {
+export const NotePreviewModal = ({ isModalVisible, onClose, form, onPostComment, note: { title, body, id } }) => {
 	const { getFieldDecorator } = form;
 	const data = [
 		{
@@ -19,7 +19,7 @@ export const NotePreviewModal = ({ isModalVisible, onClose, form, onPostComment,
 			title: 'Ant Design Title 4'
 		}
 	];
-
+	console.log('isModalVisible', isModalVisible, title);
 	return (
 		<Modal
 			visible={isModalVisible}
