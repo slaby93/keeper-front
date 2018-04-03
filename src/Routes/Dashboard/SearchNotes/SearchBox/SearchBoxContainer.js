@@ -18,7 +18,7 @@ export class SearchBoxContainer extends React.PureComponent {
 	};
 
 	onFiltersChange = async filters => {
-		const { searchWithFilters, client } = this.props;
+		const { searchWithFilters } = this.props;
 		await searchWithFilters.updateQuery((data, options) => {
 			return [
 				data,
