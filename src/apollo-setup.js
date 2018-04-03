@@ -10,5 +10,3 @@ export const apolloClient = new ApolloClient({
 	link: new HttpLink({uri: 'https://floating-crag-80168.herokuapp.com/graphql'}),
   cache
 });
-
-console.log('cache',cache);
