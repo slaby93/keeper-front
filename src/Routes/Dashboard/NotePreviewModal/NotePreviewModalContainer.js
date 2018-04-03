@@ -3,7 +3,7 @@ import NotePreviewModal from './NotePreviewModal';
 import { compose, graphql, withApollo } from 'react-apollo';
 import { gql } from 'apollo-boost';
 import ADD_COMMENT from './../../../queries/ADD_COMMENT.mutation.gql';
-import GET_NOTES from './../../../queries/GET_NOTES.query.gql';
+import NOTE_FRAGMENT from './../../../queries/Note.fragment.gql';
 
 export class NotePreviewModalContainer extends React.PureComponent {
 	constructor(props) {
@@ -15,9 +15,10 @@ export class NotePreviewModalContainer extends React.PureComponent {
 	}
 
 	getNote = (client, noteID) => {
-		const { notes } = client.cache.readQuery({ query: GET_NOTES });
-		const note = notes.filter(item => item.id === noteID)[0];
-		return note;
+		return client.readFragment({
+			id: `Note:${noteID}`,
+			fragment: NOTE_FRAGMENT
+		})
 	};
 
 	handlePostComment = async ({ commentBody }, form) => {
@@ -28,15 +29,24 @@ export class NotePreviewModalContainer extends React.PureComponent {
 				body: commentBody
 			},
 			update: async (store, { data: { addComment } }) => {
-				const note = this.getNote(client, noteID);
-				note.comments.push(addComment);
-				const cachedData = store.readQuery({ query: GET_NOTES });
-				const index = cachedData.notes.findIndex(item => item.id === noteID);
-				cachedData.notes[index] = note;
-				await client.writeQuery({ query: GET_NOTES, data: cachedData });
+				const {note} =  this.state
+				client.writeFragment({
+					id: `Note:${noteID}`,
+					fragment: gql`
+						fragment myTodo2 on Note {
+							comments {
+								body
+							}
+						}
+					`,
+					data: {
+						__typename: 'Note',
+						comments: note.comments.concat([addComment])
+					}
+				});
 				this.setState({
 					note: this.getNote(client, noteID)
-				});
+				})
 			}
 		});
 		form.resetFields();
