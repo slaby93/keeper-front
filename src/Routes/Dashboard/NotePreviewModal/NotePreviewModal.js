@@ -3,23 +3,15 @@ import styled from 'styled-components';
 import { Modal, Form, Input, Button, List, Avatar, Divider } from 'antd';
 const { TextArea } = Input;
 
-export const NotePreviewModal = ({ isModalVisible, onClose, form, onPostComment, note: { title, body, id } }) => {
+export const NotePreviewModal = ({
+	isModalVisible,
+	onClose,
+	form,
+	onPostComment,
+	note: { title, body, id, comments, ...args }
+}) => {
 	const { getFieldDecorator } = form;
-	const data = [
-		{
-			title: 'Ant Design Title 1'
-		},
-		{
-			title: 'Ant Design Title 2'
-		},
-		{
-			title: 'Ant Design Title 3'
-		},
-		{
-			title: 'Ant Design Title 4'
-		}
-	];
-	console.log('isModalVisible', isModalVisible, title);
+
 	return (
 		<Modal
 			visible={isModalVisible}
@@ -57,7 +49,7 @@ export const NotePreviewModal = ({ isModalVisible, onClose, form, onPostComment,
 			<CommentsSection>
 				<List
 					itemLayout="horizontal"
-					dataSource={data}
+					dataSource={comments}
 					renderItem={item => (
 						<List.Item>
 							<List.Item.Meta
@@ -65,7 +57,7 @@ export const NotePreviewModal = ({ isModalVisible, onClose, form, onPostComment,
 									<Avatar src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" />
 								}
 								title={item.title}
-								description="Ant Design, a design language for background applications, is refined by Ant UED Team"
+								description={item.body}
 							/>
 						</List.Item>
 					)}
@@ -82,7 +74,7 @@ export const NotePreviewModal = ({ isModalVisible, onClose, form, onPostComment,
 					}}
 				>
 					<Form.Item>
-						{getFieldDecorator('body', {
+						{getFieldDecorator('commentBody', {
 							rules: [{ required: true, message: 'Please input note comment!' }]
 						})(<TextArea type="textarea" placeholder="Comment" />)}
 					</Form.Item>

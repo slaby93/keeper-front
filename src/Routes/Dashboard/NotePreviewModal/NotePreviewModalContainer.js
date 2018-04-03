@@ -19,20 +19,42 @@ export class NotePreviewModalContainer extends React.PureComponent {
 		return note;
 	};
 
-	handlePostComment = async ({ body }) => {
-		const { data: { id }, addComment } = this.props;
+	saveNote = () => {};
+
+	handlePostComment = async ({ commentBody }) => {
+		const { note: { id } } = this.state;
+		const { addComment, client, noteID } = this.props;
 		await addComment({
 			variables: {
 				id: parseInt(id),
-				body
+				body: commentBody
+			},
+			update: (store, { data: { addComment } }) => {
+				const { notes } = client.readQuery({ query: GET_NOTES });
+				const note = this.getNote(client, noteID);
+				note.comments.push(addComment);
+				const noteIndex = notes.findIndex(item => item.id === noteID);
+				notes[noteIndex] = note;
+				client.writeQuery({ query: GET_NOTES, data: notes });
+				this.setState({
+					note
+				});
 			}
 		});
 	};
 
 	render() {
 		const { note } = this.state;
-		const { isModalVisible } = this.props;
-		return <NotePreviewModal onPostComment={this.handlePostComment} note={note} isModalVisible={isModalVisible} />;
+		const { isModalVisible, onClose } = this.props;
+
+		return (
+			<NotePreviewModal
+				onPostComment={this.handlePostComment}
+				note={note}
+				isModalVisible={isModalVisible}
+				onClose={onClose}
+			/>
+		);
 	}
 }
 
