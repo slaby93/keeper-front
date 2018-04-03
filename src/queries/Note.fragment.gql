@@ -4,6 +4,7 @@ fragment NOTE_FIELDS on Note {
 	title
 	body
 	comments {
+		id
 		body
 	}
 	tags

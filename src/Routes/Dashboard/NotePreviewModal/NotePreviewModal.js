@@ -2,9 +2,9 @@ import React from 'react';
 import AddNewCommentForm from './AddNewCommentForm';
 import EditNoteDetailsForm from './EditNoteDetailsForm';
 import styled from 'styled-components';
-import { Modal, Button, List, Avatar, Divider } from 'antd';
+import { Modal, Button, List, Avatar, Divider, Icon } from 'antd';
 
-export const NotePreviewModal = ({ isModalVisible, onClose, onPostComment, note }) => {
+export const NotePreviewModal = ({ isModalVisible, onClose, onPostComment,onRemoveComment, note }) => {
 	return (
 		<Modal
 			visible={isModalVisible}
@@ -23,7 +23,7 @@ export const NotePreviewModal = ({ isModalVisible, onClose, onPostComment, note 
 					itemLayout="horizontal"
 					dataSource={note.comments}
 					renderItem={item => (
-						<List.Item>
+						<List.Item actions={[<Icon onClick={() =>  onRemoveComment(item)} type="delete" />]}>
 							<List.Item.Meta
 								avatar={
 									<Avatar src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" />

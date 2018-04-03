@@ -3,6 +3,7 @@ import NotePreviewModal from './NotePreviewModal';
 import { compose, graphql, withApollo } from 'react-apollo';
 import { gql } from 'apollo-boost';
 import ADD_COMMENT from './../../../queries/ADD_COMMENT.mutation.gql';
+import REMOVE_COMMENT from './../../../queries/REMOVE_COMMENT.mutation.gql';
 import NOTE_FRAGMENT from './../../../queries/Note.fragment.gql';
 
 export class NotePreviewModalContainer extends React.PureComponent {
@@ -52,12 +53,43 @@ export class NotePreviewModalContainer extends React.PureComponent {
 		form.resetFields();
 	};
 
+	handleRemoveComment = async (item)=>{
+		const { removeComment, client, noteID } = this.props
+		
+		await removeComment({
+			variables: {
+				id: parseInt(item.id),
+			},
+			update: async (store, {data:{deleteComment}}) => {
+				const { note } = this.state	
+				client.writeFragment({
+					id: `Note:${noteID}`,
+					fragment: gql`
+					fragment myTodo3 on Note {
+							comments {
+								body
+							}
+						}
+					`,
+					data: {
+						__typename:'Note',
+						comments: note.comments.filter(item => item.id !== deleteComment.id)
+					}
+				})
+				this.setState({
+					note: this.getNote(client, noteID)
+				})	
+			}
+		}) 
+	}
+
 	render() {
 		const { note } = this.state;
 		const { isModalVisible, onClose } = this.props;
 
 		return (
 			<NotePreviewModal
+				onRemoveComment={this.handleRemoveComment}
 				onPostComment={this.handlePostComment}
 				note={note}
 				isModalVisible={isModalVisible}
@@ -67,4 +99,7 @@ export class NotePreviewModalContainer extends React.PureComponent {
 	}
 }
 
-export default compose(graphql(ADD_COMMENT, { name: 'addComment' }))(withApollo(NotePreviewModalContainer));
+export default compose(
+	graphql(ADD_COMMENT, { name: 'addComment' }),
+	graphql(REMOVE_COMMENT, { name: 'removeComment' })
+)(withApollo(NotePreviewModalContainer));
