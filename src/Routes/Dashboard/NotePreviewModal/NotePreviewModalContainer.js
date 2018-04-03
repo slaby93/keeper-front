@@ -5,6 +5,7 @@ import { gql } from 'apollo-boost';
 import ADD_COMMENT from './../../../queries/ADD_COMMENT.mutation.gql';
 import REMOVE_COMMENT from './../../../queries/REMOVE_COMMENT.mutation.gql';
 import NOTE_FRAGMENT from './../../../queries/Note.fragment.gql';
+import EDIT_NOTE from './../../../queries/EDIT_NOTE.mutation.gql';
 
 export class NotePreviewModalContainer extends React.PureComponent {
 	constructor(props) {
@@ -83,12 +84,23 @@ export class NotePreviewModalContainer extends React.PureComponent {
 		}) 
 	}
 
+	handleEditNote = async (values, form) => {
+		const { editNote, noteID } = this.props
+		await editNote({
+			variables: {
+				id: parseFloat(noteID),
+				...values
+			}
+		}) 
+	}
+
 	render() {
 		const { note } = this.state;
 		const { isModalVisible, onClose } = this.props;
 
 		return (
 			<NotePreviewModal
+				onEditNote={this.handleEditNote}
 				onRemoveComment={this.handleRemoveComment}
 				onPostComment={this.handlePostComment}
 				note={note}
@@ -101,5 +113,6 @@ export class NotePreviewModalContainer extends React.PureComponent {
 
 export default compose(
 	graphql(ADD_COMMENT, { name: 'addComment' }),
+	graphql(EDIT_NOTE, { name: 'editNote' }),
 	graphql(REMOVE_COMMENT, { name: 'removeComment' })
 )(withApollo(NotePreviewModalContainer));

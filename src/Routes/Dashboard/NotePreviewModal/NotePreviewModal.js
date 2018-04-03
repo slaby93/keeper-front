@@ -4,7 +4,7 @@ import EditNoteDetailsForm from './EditNoteDetailsForm';
 import styled from 'styled-components';
 import { Modal, Button, List, Avatar, Divider, Icon } from 'antd';
 
-export const NotePreviewModal = ({ isModalVisible, onClose, onPostComment,onRemoveComment, note }) => {
+export const NotePreviewModal = ({ isModalVisible, onClose,onEditNote, onPostComment,onRemoveComment, note }) => {
 	return (
 		<Modal
 			visible={isModalVisible}
@@ -15,8 +15,8 @@ export const NotePreviewModal = ({ isModalVisible, onClose, onPostComment,onRemo
 				</Button>
 			]}
 		>
-			<Divider>Note</Divider>
-			<EditNoteDetailsForm note={note} />
+			<Divider>Note (id: {note.id})</Divider>
+			<EditNoteDetailsForm note={note} onEditNote={onEditNote}/>
 			<Divider>Comments</Divider>
 			<CommentsSection>
 				<List

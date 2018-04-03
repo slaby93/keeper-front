@@ -1,0 +1,12 @@
+mutation EDIT_NOTE($id: Int!, $title: String!, $body: String!, $tags:[String], $state:States) {
+	editNote(id: $id,title: $title, body:$body, tags: $tags, state: $state) {
+		id
+		title
+		body
+		comments {
+			id
+			body
+		}
+		tags
+	}
+}

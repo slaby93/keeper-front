@@ -2,14 +2,20 @@ import React from 'react';
 import { Form, Input, Button } from 'antd';
 const { TextArea } = Input;
 
-const EditNoteDetailsForm = Form.create()(({ form, note: { title, body } }) => {
+const EditNoteDetailsForm = Form.create()(({ form, note: { title, body }, onEditNote }) => {
 	const { getFieldDecorator } = form;
 
 	return (
 		<Form
 			onSubmit={event => {
 				event.preventDefault();
-				console.log('SUBMIT FORM INFO');
+				form.validateFields((err, values) => {
+					if (err) {
+						return;
+					}
+					onEditNote(values, form);
+				});
+				
 			}}
 		>
 			<Form.Item>
