@@ -26,7 +26,7 @@ export class NotePreviewModalContainer extends React.PureComponent {
 		const { addComment, client, noteID } = this.props;
 		await addComment({
 			variables: {
-				id: parseInt(noteID),
+				id: parseFloat(noteID),
 				body: commentBody
 			},
 			update: async (store, { data: { addComment } }) => {
@@ -58,7 +58,7 @@ export class NotePreviewModalContainer extends React.PureComponent {
 		
 		await removeComment({
 			variables: {
-				id: parseInt(item.id),
+				id: parseFloat(item.id),
 			},
 			update: async (store, {data:{deleteComment}}) => {
 				const { note } = this.state	

@@ -31,7 +31,7 @@ export class NotesBoardContainer extends React.PureComponent {
 		try {
 			await removeNote({
 				variables: {
-					id: parseInt(id)
+					id: parseFloat(id)
 				},
 				/**
 				 * Example of mutation in which we requery all Notes
