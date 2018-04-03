@@ -1,17 +1,10 @@
 import React from 'react';
+import AddNewCommentForm from './AddNewCommentForm';
+import EditNoteDetailsForm from './EditNoteDetailsForm';
 import styled from 'styled-components';
-import { Modal, Form, Input, Button, List, Avatar, Divider } from 'antd';
-const { TextArea } = Input;
+import { Modal, Button, List, Avatar, Divider } from 'antd';
 
-export const NotePreviewModal = ({
-	isModalVisible,
-	onClose,
-	form,
-	onPostComment,
-	note: { title, body, id, comments, ...args }
-}) => {
-	const { getFieldDecorator } = form;
-
+export const NotePreviewModal = ({ isModalVisible, onClose, onPostComment, note }) => {
 	return (
 		<Modal
 			visible={isModalVisible}
@@ -23,33 +16,12 @@ export const NotePreviewModal = ({
 			]}
 		>
 			<Divider>Note</Divider>
-			<Form
-				onSubmit={event => {
-					event.preventDefault();
-					console.log('SUBMIT FORM INFO');
-				}}
-			>
-				<Form.Item>
-					{getFieldDecorator('title', {
-						rules: [{ required: true, message: 'Please input title!' }],
-						initialValue: title
-					})(<Input type="textarea" placeholder="Title" />)}
-				</Form.Item>
-				<Form.Item>
-					{getFieldDecorator('body', {
-						rules: [{ required: true, message: 'Please input body!' }],
-						initialValue: body
-					})(<TextArea type="textarea" placeholder="Body" />)}
-				</Form.Item>
-				<Button key="submit" type="primary" htmlType="submit">
-					Submit
-				</Button>
-			</Form>
+			<EditNoteDetailsForm note={note} />
 			<Divider>Comments</Divider>
 			<CommentsSection>
 				<List
 					itemLayout="horizontal"
-					dataSource={comments}
+					dataSource={note.comments}
 					renderItem={item => (
 						<List.Item>
 							<List.Item.Meta
@@ -62,26 +34,7 @@ export const NotePreviewModal = ({
 						</List.Item>
 					)}
 				/>
-				<Form
-					onSubmit={event => {
-						event.preventDefault();
-						form.validateFields((err, values) => {
-							if (err) {
-								return;
-							}
-							onPostComment(values);
-						});
-					}}
-				>
-					<Form.Item>
-						{getFieldDecorator('commentBody', {
-							rules: [{ required: true, message: 'Please input note comment!' }]
-						})(<TextArea type="textarea" placeholder="Comment" />)}
-					</Form.Item>
-					<Button key="submit" type="primary" htmlType="submit">
-						Post comment!
-					</Button>
-				</Form>
+				<AddNewCommentForm onPostComment={onPostComment} />
 			</CommentsSection>
 		</Modal>
 	);
@@ -92,6 +45,4 @@ const CommentsSection = styled.div`
 	overflow-y: auto;
 `;
 
-const WrappedNotePreviewModal = Form.create()(NotePreviewModal);
-
-export default WrappedNotePreviewModal;
+export default NotePreviewModal;

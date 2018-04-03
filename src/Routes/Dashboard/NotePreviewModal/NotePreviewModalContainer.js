@@ -1,6 +1,7 @@
 import React from 'react';
 import NotePreviewModal from './NotePreviewModal';
 import { compose, graphql, withApollo } from 'react-apollo';
+import { gql } from 'apollo-boost';
 import ADD_COMMENT from './../../../queries/ADD_COMMENT.mutation.gql';
 import GET_NOTES from './../../../queries/GET_NOTES.query.gql';
 
@@ -19,28 +20,26 @@ export class NotePreviewModalContainer extends React.PureComponent {
 		return note;
 	};
 
-	saveNote = () => {};
-
-	handlePostComment = async ({ commentBody }) => {
-		const { note: { id } } = this.state;
+	handlePostComment = async ({ commentBody }, form) => {
 		const { addComment, client, noteID } = this.props;
 		await addComment({
 			variables: {
-				id: parseInt(id),
+				id: parseInt(noteID),
 				body: commentBody
 			},
-			update: (store, { data: { addComment } }) => {
-				const { notes } = client.readQuery({ query: GET_NOTES });
+			update: async (store, { data: { addComment } }) => {
 				const note = this.getNote(client, noteID);
 				note.comments.push(addComment);
-				const noteIndex = notes.findIndex(item => item.id === noteID);
-				notes[noteIndex] = note;
-				client.writeQuery({ query: GET_NOTES, data: notes });
+				const cachedData = store.readQuery({ query: GET_NOTES });
+				const index = cachedData.notes.findIndex(item => item.id === noteID);
+				cachedData.notes[index] = note;
+				await client.writeQuery({ query: GET_NOTES, data: cachedData });
 				this.setState({
-					note
+					note: this.getNote(client, noteID)
 				});
 			}
 		});
+		form.resetFields();
 	};
 
 	render() {
