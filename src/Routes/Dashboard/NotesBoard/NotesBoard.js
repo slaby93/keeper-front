@@ -34,12 +34,10 @@ export class NotesBoard extends React.PureComponent {
 }
 
 const StyledNotesBoard = styled(NotesBoard)`
-	background-color: #ececec;
 	padding: 30px;
 	display: flex;
 	flex-direction: row;
 	flex-wrap: wrap;
-	min-height: 100vh;
 	max-width: 100vw;
 	overflow: hidden;
 	align-items: flex-start;

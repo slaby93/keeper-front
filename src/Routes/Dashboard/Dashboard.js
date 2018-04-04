@@ -1,11 +1,12 @@
 import React from 'react';
+import styled, { css } from 'styled-components';
 import AddNoteModal from './AddNoteModal';
 import SearchNotes from './SearchNotes';
 import NotesBoard from './NotesBoard';
 
-export const Dashboard = () => {
+export const Dashboard = ({className}) => {
 	return (
-		<div>
+		<div className={className}>
 			<SearchNotes />
 			<AddNoteModal />
 			<NotesBoard />
@@ -13,4 +14,9 @@ export const Dashboard = () => {
 	);
 };
 
-export default Dashboard;
+const StyledDashboard = styled(Dashboard)`
+	background-color: #ececec;
+	min-height: 100vh;
+`
+
+export default StyledDashboard;
