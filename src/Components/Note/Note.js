@@ -107,6 +107,7 @@ const NoteOverlayBottomOptions = styled.div`
 
 const StyledNote = styled(Note)`
 	margin: 10px;
+	cursor: pointer;
 	position: relative;
 	&:hover {
 		box-shadow: 0px 0px 10px 1px #a7a7a7;
