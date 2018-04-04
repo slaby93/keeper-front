@@ -1,14 +1,17 @@
 import React from 'react';
 import Draggable from 'react-draggable';
-import styled from 'styled-components';
-import { Card, Icon } from 'antd';
+import styled, { css } from 'styled-components';
+import { Card, Icon, Popover } from 'antd';
+import { prop, ifProp } from 'styled-tools'
+import { CirclePicker } from 'react-color';
 const { Meta } = Card;
 
 export class Note extends React.PureComponent {
 	constructor() {
 		super();
 		this.state = {
-			isHovered: false
+			isHovered: false,
+			bgColor: 'white'
 		};
 	}
 
@@ -35,11 +38,20 @@ export class Note extends React.PureComponent {
 		onRemove(id);
 	};
 
+	handleChangeColor = ({hex}, event)=>{
+		event.persist()
+		this.setState({
+			bgColor: hex
+		})
+	}
+
 	render() {
+		const {isHovered, bgColor} = this.state
 		const { className, title, body } = this.props;
 		return (
 			<Draggable axis="both" handle=".handle" defaultPosition={{ x: 0, y: 0 }} position={null} grid={[25, 25]}>
 				<Card
+				  style={{backgroundColor:bgColor}}
 					onMouseOver={this.onMouseOver}
 					onMouseLeave={this.onMouseLeave}
 					onClick={this.handleClick}
@@ -47,14 +59,40 @@ export class Note extends React.PureComponent {
 					actions={[<Icon onClick={this.handleRemoveClick} type="delete" />]}
 				>
 					<Meta title={title} description={body} />
+					<NoteOverlay onClick={event => event.stopPropagation()}  visible={isHovered}>
+						<NoteOverlayBottomOptions>
+							<Popover trigger="hover" placement="top" content={<CirclePicker onChangeComplete={ this.handleChangeColor }/>}>
+								<Icon type="eye" onClick={event => event.stopPropagation()} />
+							</Popover>
+						</NoteOverlayBottomOptions>
+					</NoteOverlay>
 				</Card>
 			</Draggable>
 		);
 	}
 }
+const NoteOverlay = styled.div`
+	opacity: 0;
+	position: absolute;
+	left: 0;
+	top: 0;
+	transition: opacity .2s linear;
+	${ifProp('visible', css`
+			opacity: 1;
+  `)}
+`
+
+const NoteOverlayBottomOptions = styled.div`
+  bottom: 50px;
+  position: fixed;
+	padding: 0 10px;
+  width: 100%;
+	font-size: 20px;
+`
 
 const StyledNote = styled(Note)`
 	margin: 10px;
+	position: relative;
 	&:hover {
 		box-shadow: 0px 0px 10px 1px #a7a7a7;
 	}
