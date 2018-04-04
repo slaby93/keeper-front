@@ -1,7 +1,7 @@
 import React from 'react';
 import Draggable from 'react-draggable';
 import styled, { css } from 'styled-components';
-import { Card, Icon, Popover, Popconfirm } from 'antd';
+import { Card, Icon, Popover, Popconfirm, Tooltip } from 'antd';
 import { prop, ifProp } from 'styled-tools'
 import { CirclePicker } from 'react-color';
 const { Meta } = Card;
@@ -61,10 +61,12 @@ export class Note extends React.PureComponent {
 					<NoteOverlay onClick={event => event.stopPropagation()}  visible={isHovered}>
 						<NoteOverlayBottomOptions>
 							<Popover trigger="hover" placement="top" content={<CirclePicker onChangeComplete={ this.handleChangeColor }/>}>
-								<Icon type="eye" onClick={event => event.stopPropagation()} />
+									<Icon type="eye" onClick={event => event.stopPropagation()} />
 							</Popover>
 							<Popconfirm title="Are you sure delete this note?" placement="bottom" onConfirm={this.handleRemoveClick} okText="Yes" cancelText="No">
-								<Icon type="delete" />
+								<Tooltip placement="top" title="Remove note">
+									<Icon type="delete" />
+								</Tooltip>
   						</Popconfirm>
 						</NoteOverlayBottomOptions>
 					</NoteOverlay>
