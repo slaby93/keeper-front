@@ -56,7 +56,6 @@ export class Note extends React.PureComponent {
 					onMouseLeave={this.onMouseLeave}
 					onClick={this.handleClick}
 					className={`${className} handle`}
-					actions={[<Icon onClick={this.handleRemoveClick} type="delete" />]}
 				>
 					<Meta title={title} description={body} />
 					<NoteOverlay onClick={event => event.stopPropagation()}  visible={isHovered}>
@@ -64,6 +63,7 @@ export class Note extends React.PureComponent {
 							<Popover trigger="hover" placement="top" content={<CirclePicker onChangeComplete={ this.handleChangeColor }/>}>
 								<Icon type="eye" onClick={event => event.stopPropagation()} />
 							</Popover>
+							<Icon onClick={this.handleRemoveClick} type="delete" />
 						</NoteOverlayBottomOptions>
 					</NoteOverlay>
 				</Card>
@@ -83,11 +83,14 @@ const NoteOverlay = styled.div`
 `
 
 const NoteOverlayBottomOptions = styled.div`
-  bottom: 50px;
+  bottom: 0;
   position: fixed;
-	padding: 0 10px;
+	padding: 10px;
   width: 100%;
 	font-size: 20px;
+	i:not(:last-of-type) {
+		margin-right: 10px;
+	}
 `
 
 const StyledNote = styled(Note)`
