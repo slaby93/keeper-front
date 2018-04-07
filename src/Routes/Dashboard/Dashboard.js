@@ -1,5 +1,5 @@
 import React from 'react';
-import styled, { css } from 'styled-components';
+import styled from 'styled-components';
 import AddNoteModal from './AddNoteModal';
 import SearchNotes from './SearchNotes';
 import NotesBoard from './NotesBoard';

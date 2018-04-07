@@ -2,7 +2,7 @@ import React from 'react';
 import Draggable from 'react-draggable';
 import styled, { css } from 'styled-components';
 import { Card, Icon, Popover, Popconfirm, Tooltip } from 'antd';
-import { prop, ifProp } from 'styled-tools'
+import { ifProp } from 'styled-tools'
 import { CirclePicker } from 'react-color';
 const { Meta } = Card;
 
