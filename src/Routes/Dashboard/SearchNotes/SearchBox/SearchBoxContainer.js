@@ -11,9 +11,13 @@ export class SearchBoxContainer extends React.PureComponent {
 
         const { title } = filters
         const { getNotes, setFilters } = this.props
+        /**
+         * title needs to be send as null if empty
+         * as to have same cache value 
+         */
         setFilters({
             variables:{
-                title
+                title: title.length ? title : null 
             }
         })
     };

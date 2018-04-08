@@ -69,23 +69,22 @@ export class NotesBoardContainer extends React.PureComponent {
 
 	render() {
 		const { isModalVisible, noteID, isLoading } = this.state;
-		const { data: { noteSearch, loading } } = this.props;
-
+		const { filters: { filterByTitle = null } } = this.props;
 		return (
-			<Query query={GET_FILTERS}>
+			<Query query={GET_NOTES} variables={{title: filterByTitle}}>
 				{
-					stuff => {
-						console.log('NOTES BOARD CONTAINER',  this.props)
-						console.log('stuff',stuff)
-						return <NotesBoard
-							isLoading={isLoading || loading}
-							toggleModal={this.toggleModal}
-							onNoteClick={this.onNoteClick}
-							onNoteRemove={this.onNoteRemove}
-							isModalVisible={isModalVisible}
-							noteID={noteID}
-							notesList={noteSearch}
-						/>;
+					({ data: { noteSearch }, loading }) => {
+						return (
+							<NotesBoard
+								isLoading={isLoading || loading}
+								toggleModal={this.toggleModal}
+								onNoteClick={this.onNoteClick}
+								onNoteRemove={this.onNoteRemove}
+								isModalVisible={isModalVisible}
+								noteID={noteID}
+								notesList={noteSearch}
+							/>
+						)
 					}
 				}
 			</Query>
@@ -93,4 +92,11 @@ export class NotesBoardContainer extends React.PureComponent {
 	}
 }
 
-export default compose(graphql(GET_FILTERS), graphql(GET_NOTES), graphql(REMOVE_NOTE, { name: 'removeNote' }))(withApollo(NotesBoardContainer));
+export default compose(
+	graphql(GET_FILTERS, { name: 'filters' }),
+	graphql(GET_NOTES, {
+		name: 'notes', data: (...args) => {
+			console.log('XXXXXXXXXXX', ...args)
+		}
+	}),
+	graphql(REMOVE_NOTE, { name: 'removeNote' }))(withApollo(NotesBoardContainer));
