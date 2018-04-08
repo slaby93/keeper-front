@@ -1,6 +1,14 @@
 #import "./Note.fragment.gql"
-query GET_NOTES {
-	notes {
-		...NOTE_FIELDS
+query GET_NOTES(
+	$title: String
+	$tags: [String]
+	$state: String
+	) {
+	noteSearch(
+		title: $title,
+		tags: $tags,
+		state: $state
+	) {
+	  ...NOTE_FIELDS
 	}
 }

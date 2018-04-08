@@ -1,10 +1,17 @@
 import React from 'react';
 import NotesBoard from './NotesBoard';
-import { graphql, compose } from 'react-apollo';
+import { graphql, compose, Query, withApollo } from 'react-apollo';
+import { gql } from 'apollo-boost';
 import GET_NOTES from './../../../queries/GET_NOTES.query.gql';
 import REMOVE_NOTE from './../../../queries/REMOVE_NOTE.mutation.gql';
 import Noty from 'noty';
+import GET_FILTERS from './../../../queries/GET_FILTERS.local.query.gql';
 
+// const GET_FILTERS = gql`
+// {
+//     filterByTitle @client
+// }
+// `
 export class NotesBoardContainer extends React.PureComponent {
 	constructor() {
 		super();
@@ -62,20 +69,28 @@ export class NotesBoardContainer extends React.PureComponent {
 
 	render() {
 		const { isModalVisible, noteID, isLoading } = this.state;
-		const { data: { notes, loading } } = this.props;
+		const { data: { noteSearch, loading } } = this.props;
 
 		return (
-			<NotesBoard
-				isLoading={isLoading || loading}
-				toggleModal={this.toggleModal}
-				onNoteClick={this.onNoteClick}
-				onNoteRemove={this.onNoteRemove}
-				isModalVisible={isModalVisible}
-				noteID={noteID}
-				notesList={notes}
-			/>
-		);
+			<Query query={GET_FILTERS}>
+				{
+					stuff => {
+						console.log('NOTES BOARD CONTAINER',  this.props)
+						console.log('stuff',stuff)
+						return <NotesBoard
+							isLoading={isLoading || loading}
+							toggleModal={this.toggleModal}
+							onNoteClick={this.onNoteClick}
+							onNoteRemove={this.onNoteRemove}
+							isModalVisible={isModalVisible}
+							noteID={noteID}
+							notesList={noteSearch}
+						/>;
+					}
+				}
+			</Query>
+		)
 	}
 }
 
-export default compose(graphql(GET_NOTES), graphql(REMOVE_NOTE, { name: 'removeNote' }))(NotesBoardContainer);
+export default compose(graphql(GET_FILTERS), graphql(GET_NOTES), graphql(REMOVE_NOTE, { name: 'removeNote' }))(withApollo(NotesBoardContainer));
