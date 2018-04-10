@@ -18,7 +18,7 @@ export class SearchBoxContainer extends React.PureComponent {
         setFilters({
             variables: {
                 title: (title.length ? title : null), 
-                ...state && { state }
+                state
             }
         })
     };

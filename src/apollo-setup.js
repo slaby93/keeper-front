@@ -10,7 +10,7 @@ export const apolloClient = new ApolloClient({
 		},
 		resolvers: {
 			Mutation: {
-				setFilters: (_, { title, state }, { cache, getCacheKey }) => {
+				setFilters: (_, { title = null, state = null }, { cache, getCacheKey }) => {
 					cache.writeData({ data: { filterByTitle: title, filterByState: state } });
 					return null;
 				}
