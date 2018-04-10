@@ -63,7 +63,6 @@ export class NotesBoardContainer extends React.PureComponent {
 	render() {
 		const { isModalVisible, noteID, isLoading } = this.state;
 		const { filters: { filterByTitle = null, filterByState = null } } = this.props;
-		console.log('X',filterByTitle, filterByState);
 		
 		return (
 			<Query query={GET_NOTES} variables={{title: filterByTitle, state: filterByState}}>

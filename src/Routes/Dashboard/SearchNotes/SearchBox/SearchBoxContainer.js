@@ -9,7 +9,7 @@ import GET_NOTES from './../../../../queries/GET_NOTES.query.gql';
 export class SearchBoxContainer extends React.PureComponent {
 
     onFiltersChange = async filters => {
-        const { title, state } = filters
+        const { title = "", state } = filters
         const { setFilters } = this.props
         /**
          * title needs to be send as null if empty
@@ -17,7 +17,7 @@ export class SearchBoxContainer extends React.PureComponent {
          */
         setFilters({
             variables: {
-                ...title && title.length ? {title} : null,
+                title: (title.length ? title : null), 
                 ...state && { state }
             }
         })

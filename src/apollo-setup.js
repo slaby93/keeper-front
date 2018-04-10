@@ -4,7 +4,10 @@ export const apolloClient = new ApolloClient({
 	errorPolicy: 'ignore',
 	uri: 'https://floating-crag-80168.herokuapp.com/graphql',
 	clientState: {
-		defaults: {},
+		defaults: {
+			filterByTitle: null,
+			filterByState: null
+		},
 		resolvers: {
 			Mutation: {
 				setFilters: (_, { title, state }, { cache, getCacheKey }) => {
