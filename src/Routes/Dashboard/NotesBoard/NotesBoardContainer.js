@@ -1,17 +1,10 @@
 import React from 'react';
 import NotesBoard from './NotesBoard';
 import { graphql, compose, Query, withApollo } from 'react-apollo';
-import { gql } from 'apollo-boost';
+import Noty from 'noty';
 import GET_NOTES from './../../../queries/GET_NOTES.query.gql';
 import REMOVE_NOTE from './../../../queries/REMOVE_NOTE.mutation.gql';
-import Noty from 'noty';
 import GET_FILTERS from './../../../queries/GET_FILTERS.local.query.gql';
-
-// const GET_FILTERS = gql`
-// {
-//     filterByTitle @client
-// }
-// `
 export class NotesBoardContainer extends React.PureComponent {
 	constructor() {
 		super();
@@ -69,9 +62,11 @@ export class NotesBoardContainer extends React.PureComponent {
 
 	render() {
 		const { isModalVisible, noteID, isLoading } = this.state;
-		const { filters: { filterByTitle = null } } = this.props;
+		const { filters: { filterByTitle = null, filterByState = null } } = this.props;
+		console.log('X',filterByTitle, filterByState);
+		
 		return (
-			<Query query={GET_NOTES} variables={{title: filterByTitle}}>
+			<Query query={GET_NOTES} variables={{title: filterByTitle, state: filterByState}}>
 				{
 					({ data: { noteSearch }, loading }) => {
 						return (
@@ -94,9 +89,5 @@ export class NotesBoardContainer extends React.PureComponent {
 
 export default compose(
 	graphql(GET_FILTERS, { name: 'filters' }),
-	graphql(GET_NOTES, {
-		name: 'notes', data: (...args) => {
-			console.log('XXXXXXXXXXX', ...args)
-		}
-	}),
+	graphql(GET_NOTES, { name: 'notes' }),
 	graphql(REMOVE_NOTE, { name: 'removeNote' }))(withApollo(NotesBoardContainer));

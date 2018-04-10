@@ -1,23 +1,24 @@
 import React from 'react';
 import { withApollo } from 'react-apollo';
-import GET_NOTES from './../../../../queries/GET_NOTES.query.gql';
-import SearchBox from './SearchBox';
 import { gql } from 'apollo-boost';
-import { graphql, compose, Query } from 'react-apollo';
+import { graphql, compose } from 'react-apollo';
+import SearchBox from './SearchBox';
+import GET_NOTES from './../../../../queries/GET_NOTES.query.gql';
+
 
 export class SearchBoxContainer extends React.PureComponent {
 
     onFiltersChange = async filters => {
-
-        const { title } = filters
-        const { getNotes, setFilters } = this.props
+        const { title, state } = filters
+        const { setFilters } = this.props
         /**
          * title needs to be send as null if empty
          * as to have same cache value 
          */
         setFilters({
-            variables:{
-                title: title.length ? title : null 
+            variables: {
+                ...title && title.length ? {title} : null,
+                ...state && { state }
             }
         })
     };
@@ -29,9 +30,9 @@ export class SearchBoxContainer extends React.PureComponent {
 
 
 export default compose(
-    graphql(GET_NOTES, { name: 'getNotes' }), 
+    graphql(GET_NOTES, { name: 'getNotes' }),
     graphql(gql`
-      mutation ToggleTodo($id: Int!) {
-        setFilters(title: $title) @client
+      mutation {
+        setFilters(title: $title, state: $state) @client
     }`, { name: 'setFilters' })
-    )(withApollo(SearchBoxContainer));
+)(withApollo(SearchBoxContainer));
