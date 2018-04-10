@@ -1,4 +1,4 @@
 query GET_FILTERS {
-    filterByTitle  @client
-    filterByState  @client
+    filterByTitle @client
+    filterByState @client
 }
