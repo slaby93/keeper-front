@@ -9,6 +9,13 @@ export class SearchBox extends React.PureComponent {
 		});
 	};
 
+	onSelectChange = (state) => {
+		const { form, onFiltersChange } = this.props;
+		form.validateFields((err, values) => {
+			onFiltersChange({ ...values, state });
+		});
+	}
+
 	render() {
 		const { form: { getFieldDecorator } } = this.props;
 		return (
@@ -17,7 +24,7 @@ export class SearchBox extends React.PureComponent {
 					<Form.Item>{getFieldDecorator('title')(<Input placeholder="Title" />)}</Form.Item>
 					<Form.Item>
 						{getFieldDecorator('state')(
-							<Select onChange={this.onChange} placeholder="State">
+							<Select onChange={this.onSelectChange} placeholder="State" allowClear>
 								<Select.Option value="active">Active</Select.Option>
 								<Select.Option value="archived">Archived</Select.Option>
 								<Select.Option value="complete">Complete</Select.Option>

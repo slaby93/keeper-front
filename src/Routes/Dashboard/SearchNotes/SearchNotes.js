@@ -5,7 +5,7 @@ import SearchBox from './SearchBox';
 export class SearchNotes extends React.PureComponent {
 	render() {
 		return (
-			<Popover placement="left" content={<SearchBox />} trigger="click">
+			<Popover placement="left" content={<SearchBox />}>
 				<SearchButton type="primary" shape="circle" icon="search" size="large" />
 			</Popover>
 		);
