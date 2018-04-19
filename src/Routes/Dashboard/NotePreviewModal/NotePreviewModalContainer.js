@@ -17,7 +17,7 @@ export class NotePreviewModalContainer extends React.PureComponent {
 	}
 
 	getNote = (client, noteID) => {
-		return client.readFragment({
+		return client.readFragment({ // Reads Note from apollo cache
 			id: `Note:${noteID}`,
 			fragment: NOTE_FRAGMENT
 		})
