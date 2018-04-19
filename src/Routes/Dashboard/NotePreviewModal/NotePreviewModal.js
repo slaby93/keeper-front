@@ -36,15 +36,6 @@ export const NotePreviewModal = ({ isModalVisible, onClose,onEditNote, onPostCom
 				/>
 				<AddNewCommentForm onPostComment={onPostComment} />
 			</CommentsSection>
-			<Divider>Tags</Divider>
-			<div>
-				<Tag>1</Tag>
-				<Tag>2</Tag>
-				<Tag>3</Tag>
-				<Tag>4</Tag>
-				<Tag>5</Tag>
-			</div>
-
 		</Modal>
 	);
 };
